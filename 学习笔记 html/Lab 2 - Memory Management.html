@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Lab 2 - Memory Management</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h1 id="toc_0">Lab 2: Memory Management</h1>
+
+<p>本次实验将会为OS编写内存管理代码。内存管理包括以下两个部分：</p>
+
+<ol>
+<li>内核物理内存分配器，内核借此来分配内存然后释放内存。分配器将以4096B为一个单位（页）进行操作。本次实验中需要维护一个记录哪一个物理页面为空闲或占有、页面由哪些进程共享的数据结构，还需编写分配和释放页面的规则。</li>
+<li>虚拟内存，即将内核和用户软件使用的虚拟地址映射到物理内存地址的部分。当指令占用内存、查询各类页表时x86硬件的内存管理单元MMU则会映像地址。本次实验中将会根据要求改进JOS以安装MMU页表。</li>
+</ol>
+
+<h2 id="toc_1">第一部分 物理页面管理</h2>
+
+<p>OS必须保持跟踪物理RAM中哪些部分是空闲的、哪些部分是正在被占用的。JOS以页粒度管理PC的物理内存，因此可以使用MMU来映射、维护已分配内存的每一块。</p>
+
+<p>首先编写物理页面分配器。它通过一个<code>struct PackInfo</code>对象的链表（与xv6不同，这些对象本身并没有嵌入在自由页面中）保持追踪页面的空闲状态，每一个对象对应一个物理页面。在完成虚拟内存的其他部分之前需要先完成物理页面分配器，因为页表管理的代码将会需要先分配存放页表的物理内存。</p>
+
+<p><dir style="border-style:solid;border-width:1px;border-color:lightgrey"></p>
+
+<p><strong>练习一：</strong></p>
+
+<p>在文件<code>kern/pmap.c</code>中完成以下函数的实现：</p>
+
+<p><code>boot_alloc()</code><br>
+<code>mem_init()</code>（完成至调用<code>check_page_free_list(1)</code>即可）<br>
+<code>page_init()</code><br>
+<code>page_alloc()</code><br>
+<code>page_free()</code></p>
+
+<p>函数<code>check_page_free_list()</code>和<code>check_page_alloc()</code>可用于测试。应该启动JOS观察<code>check_page_alloc()</code>是否报告正确。可以添加一些<code>assert()</code>来验证假设是否正确。</p>
+
+<p></dir></p>
+
+<p><br></p>
+
+<h2 id="toc_2">第二部分 虚拟内存</h2>
+
+<p>首先熟悉x86保护模式下的内存管理结构：分段和页面翻译。</p>
+
+<p><dir style="border-style:solid;border-width:1px;border-color:lightgrey"></p>
+
+<p><strong>练习二：</strong></p>
+
+<p>阅读<a href="https://pdos.csail.mit.edu/6.828/2016/readings/i386/toc.htm">Intel 80386 Reference Manual</a>的第五、六章。阅读有关页面翻译和页面保护的部分（5.2和6.4）。大致浏览有关分段的部分，虽然JOS通过页实现虚拟内存和保护，但是段翻译和段保护在x86下也无法忽视。</p>
+
+<p></dir></p>
+
+<h4 id="toc_3">1. 虚拟地址、线性地址和物理地址</h4>
+
+<p>在x86术语中，虚拟地址包含段描述符和段内偏移。线性地址是段翻译之后、页翻译之前的地址。物理地址则是在段页翻译后得到的最终出现在去往RAM的硬件总线上的地址。</p>
+
+<div style="text-align:center"><img style="zoom:50%" src="http://a2.qpic.cn/psb?/V12eNqfg4Q3Q0t/hV8u4lqN4zaxlNd4MxlthqlIAeI*n2tIEiDivzxry4Q!/b/dB4BAAAAAAAA&bo=ugQEAboEBAEDACU!&rf=viewer_4"></img></div>
+
+<p>一个C的指针即是虚拟地址中的偏移量。<code>boot/boot.s</code>中的全局描述符表GDT将所有分段的基地址置为0并限制其在0xffffffff内，从而有效地将段翻译省去。因此描述符就没有任何效果，线性地址和虚拟地址中的偏移量始终一致。在下一Lab中，我们将会与段进行进一步的交互，但在内存翻译中可以只关注页二暂时忽略分段。</p>
+
+<p>回想Lab 1中的第三部分，我们安装了一个简单的页表从而内核可以于0x00100000处运行其链接地址，尽管实际上其加载到物理内存中的地址就在ROM BIOS的上方0x00100000处。这个页表仅仅映射了4MB的内存。在本次实验需要设置的虚拟内存布局中我么将会扩展页表至映射物理内存中的从0xf0000000开始的前256MB以及其他虚拟内存的区域。</p>
+
+<p><dir style="border-style:solid;border-width:1px;border-color:lightgrey"></p>
+
+<p><strong>练习三：</strong></p>
+
+<p>虽然GDB仅可以通过虚拟地址访问QEMU的内存，但是在设置虚拟内存的同时能够检查物理内存将是十分有利的。复习实验工具向导中<a href="https://pdos.csail.mit.edu/6.828/2016/labguide.html#qemu">QEMU的监视命令</a>，尤其是<code>xp</code>命令，该命令可以检查物理内存。在终端中用<code>Control-a c</code>来访问QEMU监视器。</p>
+
+<p>在QEMU监视器中使用<code>xp</code>命令、GDB中使用<code>x</code>命令来检查相对应的物理地址和虚拟地址处的内存，确保你看到的数据一致。</p>
+
+<p>修补的QEMU版本提供了<code>info pg</code>命令，该命令详细显示了当前页表的内容，包括所有映射的内存范围，权限和标志。Stock QEMU也提供了<code>info mem</code>命令，该命令显示虚拟内存映射范围以及权限的概括。</p>
+
+<p></dir></p>
+
+<p>由CPU执行的代码可知，一旦进入保护模式就再无法直接使用线性地址或者物理地址。所有的内存饮用都被MMU翻译为虚拟地址，也就是说所有C中的指针都是虚拟地址。</p>
+
+<p>JOS通常需要将地址操作为不透明值或整数值，而不将其解引用，例如在物理内存分配器中。这些地址有时候是虚拟地址，有时候是物理地址。为方便记录代码，JOS的源代码将两种情况做了区分：<code>uintptr_t</code>类型代表不透明的虚拟地址，<code>physaddr_t</code>类型则代表物理地址。这两种类型都是32位整数类型<code>uint32_t</code>的同义词，所以编译器允许两种类型之间的转换。又因为这两种类型都是整数类型而不是指针类型，所以编译器不允许解引用。</p>
+
+<p>JOS内核可以先将<code>uintptr_t</code>转换成指针类型再对其解引用。但是内核不能解引用物理地址，因为所有的内存引用都由MMU翻译。如果将<code>physaddr_t</code>强制转换成指针类型然后对其解引用，也许可以访存得到的地址（硬件将其理解为虚拟地址），但是却可能得不到预期的内存位置。</p>
+
+<p>总结起来就是：</p>
+
+<p><center></p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: center">C Type</th>
+<th style="text-align: center">Address</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center"><code>T*</code></td>
+<td style="text-align: center">Virtual</td>
+</tr>
+<tr>
+<td style="text-align: center"><code>uintptr_t</code></td>
+<td style="text-align: center">Virtual</td>
+</tr>
+<tr>
+<td style="text-align: center"><code>physaddr_t</code></td>
+<td style="text-align: center">Physical</td>
+</tr>
+</tbody>
+</table>
+
+<p></center></p>
+
+<p>JOS内核有时需要读取、修改只知道物理地址的内存。例如，向页表中添加映射时为了存放页目录会分配并初始化物理内存。但是内核和其他软件一样无法跳过虚拟内存翻译直接访存物理内存。JOS将从0开始的全部物理地址重新映射到虚拟内存0xf0000000处的一个原因就是为了帮助内核读写那些JOS已经知道是物理地址的内存。为了将物理地址转换成内核可以读写的虚拟地址，内核必须将0xf0000000添加到物理地址中以找到其在重新映射区域的虚拟地址，现可以通过<code>KADDR(pa)</code>命令来完成这一添加。</p>
+
+<p>JOS内核有时候也需要找到内存中存放内核数据结构的虚拟地址对应的物理地址。内核全局变量和<code>boot_alloc()</code>分配的内存都位于从0xf0000000开始的内核加载的区域，这个区域同时也是映射所有物理内存的区域。因此内核只需简单地减去0xf0000000即可以将这个区域内的虚拟地址转换成物理地址，可以通过<code>PADDR(va)</code>命令来完成减法。</p>
+
+<h4 id="toc_4">2. 引用计数</h4>
+
+<p>在后期的实验中可能经常会有同一物理页面同时映射到多个虚拟地址，或是不同环境下的地址空间。这时需要在<code>strcut PageInfo</code>中<code>pp_ref</code>字段中保留每一个物理页面的引用计数。当物理页面的引用计数变为0时，这个页面即可以被释放，因为不再被使用。通常来说，引用计数应当与所有页表中在<code>UTOP</code>下方出现的物理页面的数目，在<code>UTOP</code>上方出现的映射是内核在引导启动时设置好的，不会被释放，所以不需要引用这些页面的数目。引用计数还可能用于追踪保留到页面目录页的指针的数目，反过来说，页面目录引用页表页的数目。</p>
+
+<p>使用<code>page_alloc</code>时要小心。其返回的页面的引用计数总是0，所以每当对返回的页面进行一定处理（例如将其插入页表），<code>pp_ref</code>都应该增加。有时候也有可能被其他函数如<code>page_insert</code>处理，也有可能是调用了<code>page_alloc</code>的函数直接执行。</p>
+
+<h4 id="toc_5">3. 页表管理</h4>
+
+<p>现在应当实现一套管理页表的规则：插入、删除从线性地址到物理地址的映射，以及需要时创建页表页。</p>
+
+<p><dir style="border-style:solid;border-width:1px;border-color:lightgrey"></p>
+
+<p><strong>练习四：</strong></p>
+
+<p>实现<code>kern/pmap.c</code>中的下列函数：</p>
+
+<p><code>pgdir_walk()</code><br>
+<code>boot_map_region()</code><br>
+<code>page_lookup()</code><br>
+<code>page_remove()</code><br>
+<code>page_insert()</code></p>
+
+<p>由<code>mem_init()</code>调用的<code>check_page()</code>可以测试页表管理规则。</p>
+
+<p></dir></p>
+
+<p><br></p>
+
+<h2 id="toc_6">第三部分 内核地址空间</h2>
+
+<p>JOS将处理器的32位线性地址分成两个部分。我们将在下一实验中开始加载和运行的用户环境（进程）将会控制低部分的布局和内容，而高部分始终保持由内核控制。两个部分的分界线由<code>inc/memlayout.h</code>中的<code>ULIM</code>符号进行较为随意的定义，为内核保留大约256MB的虚拟地址空间。这解释了Lab 1中为什么要给内核设置这么高的链接地址：如果不这样的话，内核的虚拟地址空间将不会有足够的空间同时映射到下边的用户环境中。</p>
+
+<p>参考<code>inc/memlayout.h</code>中的JOS内存布局图象对于今后的实验都将有所帮助。</p>
+
+<h4 id="toc_7">1. 权限和故障隔离</h4>
+
+<p>内核和用户内存都位于每个环境的地址空间中，所以需要通过x86页表中的权限位来限制用户代码仅有权访问地址空间中的用户部分。否则用户代码中的错误将可能覆盖内核数据，导致崩溃甚至更严重的故障，此外也可以防止用户代码盗取其他环境的私密数据。需要注意的是，可编写的权限位<code>PTE_W</code>同时影响用户代码和内核代码。</p>
+
+<p>用户环境不可能有对<code>ULIM</code>以上内存的访问权限，二内核可以读写这一部分内存。在[<code>UTOP</code>, <code>ULIM</code>)这一范围内，用户和内核具有相同的权限：仅可读而不可写。这一范围内的地址用于将特定的内核数据结构向用户环境公开。最后，<code>UTOP</code>以下的地址空间供用户使用，用户环境将设置访问此内存环境的权限。</p>
+
+<h4 id="toc_8">2. 初始化内核地址空间</h4>
+
+<p>首先设置的是高于<code>UTOP</code>的地址空间，即地址空间中的内核部分。<code>inc/memlayout.h</code>已经包含了将要用到的布局。使用之前写好的函数设置合适的从线性地址到物理地址的映射。</p>
+
+<p><dir style="border-style:solid;border-width:1px;border-color:lightgrey"></p>
+
+<p><strong>练习五：</strong></p>
+
+<p>补充<code>mem_init()</code>中调用<code>check_page()</code>后边遗失的代码。补充之后将会传递<code>check_kern_pgdir()</code>和<code>check_page_installed_pgdir()</code></p>
+
+<p></dir>
+<br></p>
+
+<h4 id="toc_9">3.地址空间布局替代方案</h4>
+
+<p>JOS所用的地址空间布局并不是唯一一种。一个OS可能将内核映射到低线性地址中，把线性地址的高部分保留给用户进程使用。但是x86并没有采取这种方法，因为x86下的一个向后兼容模式，虚拟8086模式，为了使用线性地址空间的底部而采取硬连线方式，如果将内核映射到那里，这个模式便不能使用。</p>
+
+<p>将内核设计成不给自己保留任何线性或者虚拟地址的固定部分，而允许用户级进程毫无限制地使用全部4GB虚拟地址空间，同时还完全保护内核不被其他进程妨碍。这一方案虽然非常困难，但是仍然是可行的。</p>
+
+
+
+<script type="text/x-mathjax-config">
+(function () {
+
+MathJax.Hub.Config({
+	'showProcessingMessages': false,
+	'messageStyle': 'none'
+});
+
+if (typeof MathJaxListener !== 'undefined') {
+	MathJax.Hub.Register.StartupHook('End', function () {
+		MathJaxListener.invokeCallbackForKey_('End');
+	});
+}
+
+})();
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+</body>
+
+</html>
